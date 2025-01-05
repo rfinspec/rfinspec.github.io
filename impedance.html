@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Impedance Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f8;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #003366;
+            color: white;
+            padding: 1rem 2rem;
+            text-align: center;
+        }
+        header h1 {
+            margin: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 1rem;
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .container h2 {
+            color: #00509e;
+            margin-bottom: 1rem;
+        }
+        .return-button {
+            display: inline-block;
+            margin-bottom: 1.5rem;
+            padding: 0.5rem 1rem;
+            font-size: 1rem;
+            color: white;
+            background-color: #00509e;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+        .return-button:hover {
+            background-color: #003366;
+        }
+        footer {
+            background-color: #003366;
+            color: white;
+            text-align: center;
+            padding: 1rem 0;
+            margin-top: 2rem;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        input {
+            width: 37.5%;
+            padding: 8px;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        #result {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Impedance Calculator</h1>
+    </header>
+    <div class="container">
+        <a href="index.html" class="return-button">Back to Main Page</a>
+        <h2>Calculate Impedance</h2>
+        <p>This page is dedicated to impedance calculations for transmission lines and RF circuits.</p>
+        
+        <label for="width">Microstrip Width (mm):</label>
+        <input type="number" id="width" placeholder="Enter microstrip width" required>
+
+        <label for="height">Microstrip Height (mm):</label>
+        <input type="number" id="height" placeholder="Enter microstrip height" required>
+
+        <label for="thickness">Microstrip Thickness (mm):</label>
+        <input type="number" id="thickness" placeholder="Enter microstrip thickness" required>
+
+        <label for="dielectric">Dielectric Constant:</label>
+        <input type="number" id="dielectric" placeholder="Enter dielectric constant" required>
+
+        <div id="result"></div>
+
+        <button onclick="calculateImpedance()">Calculate Impedance</button>
+    </div>
+    <footer>
+        <p>&copy; 2025 RF Calculators. All rights reserved.</p>
+    </footer>
+
+    <script>
+        function calculateImpedance() {
+            var width = parseFloat(document.getElementById('width').value);
+            var height = parseFloat(document.getElementById('height').value);
+            var thickness = parseFloat(document.getElementById('thickness').value);
+            var dielectric = parseFloat(document.getElementById('dielectric').value);
+
+            // Check if all inputs are valid numbers
+            if (isNaN(width) || isNaN(height) || isNaN(thickness) || isNaN(dielectric)) {
+                document.getElementById('result').innerHTML = "<p>Please enter valid numeric values for all parameters.</p>";
+                return;
+            }
+
+            // Calculate microstrip impedance using Wadell's equations
+            var effectiveDielectric = (dielectric + 1) / 2 + (dielectric - 1) / 2 * Math.pow((1 + 12 * height / width), -0.5);
+            var normalizedImpedance = (60 / Math.sqrt(effectiveDielectric)) * Math.log(8 * height / width + width / (4 * height));
+
+            // Display the result
+            document.getElementById('result').innerHTML = "<p>Microstrip Impedance: " + normalizedImpedance.toFixed(2) + " ohms</p>";
+        }
+    </script>
+</body>
+</html>
