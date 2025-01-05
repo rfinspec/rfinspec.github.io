@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contact Form</title>
+    <title>Contact Us</title>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
     <script type="text/javascript">
         (function() {
@@ -67,6 +67,20 @@
             padding: 1rem 0;
             margin-top: 2rem;
         }
+        .back-btn {
+            background-color: #003366;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            margin-top: 20px;
+            display: inline-block;
+        }
+        .back-btn:hover {
+            background-color: #00509e;
+        }
     </style>
 </head>
 <body>
@@ -90,6 +104,9 @@
         <button type="submit">Submit</button>
     </form>
     <div id="result"></div>
+
+    <!-- Back to Main Page Button -->
+    <a href="index.html" class="back-btn">Back to Main Page</a>
 </div>
 
 <footer>
