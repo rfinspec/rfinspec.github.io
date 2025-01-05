@@ -8,82 +8,89 @@
         body {
             font-family: Arial, sans-serif;
             background-color: #f4f6f8;
+            color: #333;
             margin: 0;
             padding: 0;
         }
         header {
             background-color: #003366;
             color: white;
+            padding: 1rem 2rem;
             text-align: center;
-            padding: 1rem;
+        }
+        header h1 {
+            margin: 0;
+        }
+        nav {
+            background-color: #003366;
+            padding: 0.5rem;
+        }
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+        }
+        nav ul li {
+            margin: 0 1rem;
+        }
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-size: 1.1rem;
+        }
+        nav ul li a:hover {
+            text-decoration: underline;
         }
         .container {
             max-width: 800px;
             margin: 2rem auto;
             padding: 1rem;
             background-color: white;
+            border: 1px solid #ddd;
             border-radius: 8px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-        .container h1 {
-            color: #00509e;
         }
         footer {
             background-color: #003366;
             color: white;
             text-align: center;
-            padding: 1rem;
+            padding: 1rem 0;
             margin-top: 2rem;
-        }
-        ul {
-            list-style-type: none;
-            padding: 0;
-        }
-        li {
-            margin-bottom: 0.5rem;
-        }
-        a.resource-link {
-            color: #00509e;
-            text-decoration: none;
-            transition: color 0.2s ease;
-        }
-        a.resource-link:hover {
-            color: #003366;
-        }
-        .return-button {
-            display: inline-block;
-            margin-bottom: 1.5rem;
-            padding: 0.5rem 1rem;
-            font-size: 1rem;
-            color: white;
-            background-color: #00509e;
-            border: none;
-            border-radius: 5px;
-            text-decoration: none;
-            cursor: pointer;
-            transition: background-color 0.2s ease;
-        }
-        .return-button:hover {
-            background-color: #003366;
         }
     </style>
 </head>
 <body>
-    <header>
-        <h1>Resources</h1>
-    </header>
-    <div class="container">
-        <a href="index.html" class="return-button">Back to Main Page</a>
-        <h1>Useful RF Design Resources</h1>
-        <ul>
-            <li><a href="https://www.microwaves101.com/" class="resource-link" target="_blank">Microwaves101</a></li>
-            <li><a href="https://www.rfglobalnet.com/" class="resource-link" target="_blank">RF Globalnet</a></li>
-            <li><a href="https://www.allaboutcircuits.com/" class="resource-link" target="_blank">All About Circuits</a></li>
-            <li><a href="https://www.keysight.com/" class="resource-link" target="_blank">Keysight Technologies</a></li>
-        </ul>
-    </div>
-    <footer>
-        <p>&copy; 2025 RF Calculators. All rights reserved.</p>
-    </footer>
+
+<header>
+    <h1>Resources</h1>
+</header>
+
+<nav>
+    <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="calculators.html">Calculators</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li><a href="resources.html">Resources</a></li>
+    </ul>
+</nav>
+
+<div class="container">
+    <h2>Useful Resources for RF Design</h2>
+    <p>Here are some valuable resources for RF design that can help you with further learning and tools:</p>
+    <ul>
+        <li><a href="https://www.analog.com/en/technical-articles/rf-design-resources.html" target="_blank">Analog Devices RF Design Resources</a></li>
+        <li><a href="https://www.ti.com/rf-wireless/overview.html" target="_blank">Texas Instruments RF and Wireless Resources</a></li>
+        <li><a href="https://www.qsl.net/wa2ise/rfdesign.html" target="_blank">WA2ISE RF Design Guide</a></li>
+        <!-- Add more useful links here -->
+    </ul>
+</div>
+
+<footer>
+    <p>&copy; 2025 RF Calculators. All rights reserved.</p>
+</footer>
+
 </body>
 </html>

@@ -3,112 +3,55 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RF-in-Spec</title>
+    <title>RF Calculators</title>
     <style>
-        /* General Reset */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
         body {
             font-family: Arial, sans-serif;
-            color: #333;
             background-color: #f4f6f8;
+            color: #333;
+            margin: 0;
+            padding: 0;
         }
-
         header {
             background-color: #003366;
             color: white;
             padding: 1rem 2rem;
             text-align: center;
         }
-
         header h1 {
-            font-size: 2.5rem;
-            margin-bottom: 0.5rem;
+            margin: 0;
         }
-
-        header p {
-            font-size: 1.2rem;
-            font-weight: 300;
-        }
-
         nav {
-            background-color: #00509e;
+            background-color: #003366;
+            padding: 0.5rem;
+        }
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
             display: flex;
             justify-content: center;
-            padding: 0.5rem 0;
         }
-
-        nav a {
+        nav ul li {
+            margin: 0 1rem;
+        }
+        nav ul li a {
             color: white;
             text-decoration: none;
-            margin: 0 1rem;
-            font-size: 1rem;
-            font-weight: bold;
-            text-transform: uppercase;
+            font-size: 1.1rem;
         }
-
-        nav a:hover {
+        nav ul li a:hover {
             text-decoration: underline;
         }
-
         .container {
-            max-width: 1200px;
+            max-width: 800px;
             margin: 2rem auto;
             padding: 1rem;
-            text-align: center;
-        }
-
-        .dropdown {
-            margin: 2rem 0;
-        }
-
-        .dropdown select {
-            padding: 0.5rem 1rem;
-            font-size: 1rem;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-        .output {
-            margin-top: 2rem;
-            padding: 2rem;
             background-color: white;
             border: 1px solid #ddd;
             border-radius: 8px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
-
-        .output h2 {
-            font-size: 1.8rem;
-            color: #00509e;
-            margin-bottom: 1rem;
-        }
-
-        .output p {
-            font-size: 1.1rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .output button {
-            background-color: #003366;
-            color: white;
-            border: none;
-            padding: 0.5rem 1rem;
-            font-size: 1rem;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.2s ease;
-        }
-
-        .output button:hover {
-            background-color: #00509e;
-        }
-
         footer {
             background-color: #003366;
             color: white;
@@ -116,93 +59,36 @@
             padding: 1rem 0;
             margin-top: 2rem;
         }
-
-        footer p {
-            font-size: 0.9rem;
-        }
     </style>
 </head>
 <body>
-    <header>
-        <h1>RF-in-Spec</h1>
-        <p>Select a calculator to perform your desired RF design calculations</p>
-    </header>
-    <nav>
-        <a href="index.html">Home</a>
-        <a href="calculators.html">Calculators</a>
-        <a href="resources.html">Resources</a>
-        <a href="about.html">About</a>
-        <a href="contact.html">Contact</a>
-    </nav>
-    <div class="container">
-        <div class="dropdown">
-            <label for="calculator-select">Choose a Calculator: </label>
-            <select id="calculator-select">
-                <option value="">-- Select a Calculator --</option>
-                <option value="impedance">Impedance Calculator</option>
-                <option value="power">Power Conversion</option>
-                <option value="vswr">VSWR Calculator</option>
-                <option value="frequency">Frequency Calculator</option>
-                <option value="antenna">Antenna Gain Calculator</option>
-            </select>
-        </div>
-        <div class="output" id="output">
-            <h2>Welcome!</h2>
-            <p>Select a calculator from the dropdown menu above to see details and perform calculations.</p>
-        </div>
-    </div>
-    <footer>
-        <p>&copy; 2025 RF Calculators. All rights reserved. | Designed for RF enthusiasts</p>
-    </footer>
 
-    <script>
-        const calculators = {
-            impedance: {
-                name: "Impedance Calculator",
-                description: "Calculate impedance for various transmission lines and circuits.",
-                link: "impedance.html" // Link to the impedance calculator page
-            },
-            power: {
-                name: "Power Conversion",
-                description: "Convert between dBm, Watts, and other power units.",
-                link: "#"
-            },
-            vswr: {
-                name: "VSWR Calculator",
-                description: "Determine the Voltage Standing Wave Ratio (VSWR) of a transmission line.",
-                link: "#"
-            },
-            frequency: {
-                name: "Frequency Calculator",
-                description: "Perform frequency-related calculations for RF circuits.",
-                link: "#"
-            },
-            antenna: {
-                name: "Antenna Gain Calculator",
-                description: "Calculate the gain of an antenna based on its efficiency and size.",
-                link: "#"
-            }
-        };
+<header>
+    <h1>RF Calculators</h1>
+</header>
 
-        const selectElement = document.getElementById("calculator-select");
-        const outputElement = document.getElementById("output");
+<nav>
+    <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="calculators.html">Calculators</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li><a href="resources.html">Resources</a></li>
+    </ul>
+</nav>
 
-        selectElement.addEventListener("change", function () {
-            const selectedValue = this.value;
-            if (selectedValue && calculators[selectedValue]) {
-                const calculator = calculators[selectedValue];
-                outputElement.innerHTML = `
-                    <h2>${calculator.name}</h2>
-                    <p>${calculator.description}</p>
-                    <button onclick="window.location.href='${calculator.link}'">Open Calculator</button>
-                `;
-            } else {
-                outputElement.innerHTML = `
-                    <h2>Welcome!</h2>
-                    <p>Select a calculator from the dropdown menu above to see details and perform calculations.</p>
-                `;
-            }
-        });
-    </script>
+<div class="container">
+    <h2>Welcome to RF Calculators</h2>
+    <p>This website provides various calculators for RF design and transmission line calculations. You can explore and use these calculators to solve common RF design challenges.</p>
+    <p>Use the navigation menu to explore different calculators, resources, and contact information.</p>
+
+    <h3>Our Tools</h3>
+    <p>We offer a range of RF design calculators, including impedance calculators, microstrip calculators, and many more!</p>
+</div>
+
+<footer>
+    <p>&copy; 2025 RF Calculators. All rights reserved.</p>
+</footer>
+
 </body>
 </html>

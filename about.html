@@ -8,63 +8,84 @@
         body {
             font-family: Arial, sans-serif;
             background-color: #f4f6f8;
+            color: #333;
             margin: 0;
             padding: 0;
         }
         header {
             background-color: #003366;
             color: white;
+            padding: 1rem 2rem;
             text-align: center;
-            padding: 1rem;
+        }
+        header h1 {
+            margin: 0;
+        }
+        nav {
+            background-color: #003366;
+            padding: 0.5rem;
+        }
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+        }
+        nav ul li {
+            margin: 0 1rem;
+        }
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-size: 1.1rem;
+        }
+        nav ul li a:hover {
+            text-decoration: underline;
         }
         .container {
             max-width: 800px;
             margin: 2rem auto;
             padding: 1rem;
             background-color: white;
+            border: 1px solid #ddd;
             border-radius: 8px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-        .container h1 {
-            color: #00509e;
         }
         footer {
             background-color: #003366;
             color: white;
             text-align: center;
-            padding: 1rem;
+            padding: 1rem 0;
             margin-top: 2rem;
-        }
-        .return-button {
-            display: inline-block;
-            margin-bottom: 1.5rem;
-            padding: 0.5rem 1rem;
-            font-size: 1rem;
-            color: white;
-            background-color: #00509e;
-            border: none;
-            border-radius: 5px;
-            text-decoration: none;
-            cursor: pointer;
-            transition: background-color 0.2s ease;
-        }
-        .return-button:hover {
-            background-color: #003366;
         }
     </style>
 </head>
 <body>
-    <header>
-        <h1>About Us</h1>
-    </header>
-    <div class="container">
-        <a href="index.html" class="return-button">Back to Main Page</a>
-        <h1>About RF Calculators</h1>
-        <p>Welcome to RF Calculators, your go-to platform for RF design and calculations. We provide a range of tools and resources to help RF engineers, hobbyists, and students.</p>
-        <p>Stay tuned as we continue to expand our library of calculators and share valuable RF design information.</p>
-    </div>
-    <footer>
-        <p>&copy; 2025 RF Calculators. All rights reserved.</p>
-    </footer>
+
+<header>
+    <h1>About RF Calculators</h1>
+</header>
+
+<nav>
+    <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="calculators.html">Calculators</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li><a href="resources.html">Resources</a></li>
+    </ul>
+</nav>
+
+<div class="container">
+    <h2>About Us</h2>
+    <p>Welcome to RF Calculators! This website is designed to provide useful tools and calculators for RF engineers and designers. Whether you’re working on transmission line impedance, microstrip designs, or other RF calculations, we have tools to assist you.</p>
+    <p>Our mission is to provide simple, easy-to-use calculators that help streamline the RF design process. We are continually updating and adding new calculators to meet the needs of the RF community.</p>
+</div>
+
+<footer>
+    <p>&copy; 2025 RF Calculators. All rights reserved.</p>
+</footer>
+
 </body>
 </html>
