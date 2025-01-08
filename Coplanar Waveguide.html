@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coplanar Impedance Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f8;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #003366;
+            color: white;
+            padding: 1rem 2rem;
+            text-align: center;
+        }
+        header h1 {
+            margin: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 1rem;
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .container h2 {
+            color: #00509e;
+            margin-bottom: 1rem;
+        }
+        .return-button {
+            display: inline-block;
+            margin-bottom: 1.5rem;
+            padding: 0.5rem 1rem;
+            font-size: 1rem;
+            color: white;
+            background-color: #00509e;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+        .return-button:hover {
+            background-color: #003366;
+        }
+        footer {
+            background-color: #003366;
+            color: white;
+            text-align: center;
+            padding: 1rem 0;
+            margin-top: 2rem;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        input, select, button {
+            padding: 8px;
+            margin: 5px 0;
+            box-sizing: border-box;
+        }
+        input[type="number"] {
+            width: 100%;
+            max-width: 200px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .diagram {
+            text-align: center;
+            margin: 20px 0;
+        }
+        .diagram img {
+            max-width: 100%;
+            height: auto;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 5px;
+            background-color: #f9f9f9;
+        }
+        #result {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Coplanar Impedance Calculator</h1>
+    </header>
+    <div class="container">
+        <a href="index.html" class="return-button">Back to Main Page</a>
+        <h2>Calculate Coplanar Impedance</h2>
+        <p>Calculate the coplanar impedance based on the given parameters.</p>
+		<div class="diagram">
+		<h3>Stripline Diagram</h3>
+		<img src="coplanar-diagram.png" alt="Stripline Diagram" width="300px" />
+		</div>
+
+
+        <!-- Input Fields -->
+        <label for="w">Enter w [mm]:</label>
+        <input type="number" id="w" value="1.75" placeholder="Enter width in mm">
+
+        <label for="s">Enter s [mm]:</label>
+        <input type="number" id="s" value="1.35" placeholder="Enter gap in mm">
+
+        <label for="h">Enter h [mm]:</label>
+        <input type="number" id="h" value="0.762" placeholder="Enter height in mm">
+
+        <label for="Er">Enter Er:</label>
+        <input type="number" id="Er" value="3.45" placeholder="Enter relative permittivity">
+
+        <!-- Button -->
+        <button onclick="calculate()">Calculate Impedance</button>
+
+        <!-- Results -->
+        <div id="result">
+            <label for="impedance">Impedance [Ω]:</label>
+            <input type="text" id="impedance" value="0" disabled>
+
+            <label for="Eeff">Effective Dielectric Constant:</label>
+            <input type="text" id="Eeff" value="0" disabled>
+        </div>
+    </div>
+    <footer>
+        <p>&copy; 2025 RF-in-Spec. All rights reserved.</p>
+    </footer>
+
+    <script>
+        function hilberg(k) {
+            var kin = k; 
+            if (kin < 0.707107) {
+                k = Math.sqrt( 1 - (k * k) );
+            }
+            var ka = Math.sqrt( 1.0 + k );
+            var kb = Math.sqrt(Math.sqrt( 4.0 * k ));
+            var kc = Math.log(2.0 * (ka + kb) / (ka - kb) );
+            var kk = (2.0 * Math.PI ) / kc;
+            if (kin > 0.707107) { kk = 1 / kk; }
+            return kk;
+        }
+
+        function calculate() {
+            var a = parseFloat(document.getElementById("w").value) / 1000;
+            var g = parseFloat(document.getElementById("s").value) / 1000;
+            var h = parseFloat(document.getElementById("h").value) / 1000;
+            var Er = parseFloat(document.getElementById("Er").value);
+            var b = g + a + g;
+            var k = a / b;
+            var kl = Math.tanh((Math.PI * a) / (4 * h)) / Math.tanh((Math.PI * b) / (4 * h));
+            var hbk = hilberg(kl) / hilberg(k);
+            var Ef = (1 + (Er * hbk)) / (1 + hbk);
+            var Zo = ((60 * Math.PI) / Math.sqrt(Ef)) / (hilberg(k) + hilberg(kl)); 
+
+            Zo = Zo.toPrecision(4);
+            Ef = Ef.toPrecision(4);
+            document.getElementById("impedance").value = Zo;
+            document.getElementById("Eeff").value = Ef;
+        }
+    </script>
+</body>
+</html>

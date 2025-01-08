@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voltage Divider and Resistor Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #003366;
+            color: white;
+            padding: 1rem 2rem;
+            text-align: center;
+        }
+        header h1 {
+            margin: 0;
+        }
+        .container {
+            max-width: 900px;
+            margin: 2rem auto;
+            padding: 1rem;
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            display: flex;
+            gap: 20px;
+            justify-content: space-around;
+        }
+        .form-container {
+            flex: 1;
+            text-align: center;
+        }
+        h2 {
+            color: #00509e;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        label {
+            margin-top: 10px;
+        }
+        input {
+            margin-bottom: 10px;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            width: 100%;
+            max-width: 200px;
+        }
+        button {
+            padding: 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        #results {
+            margin-top: 20px;
+        }
+        .return-button {
+            display: inline-block;
+            margin-bottom: 1.5rem;
+            padding: 0.5rem 1rem;
+            font-size: 1rem;
+            color: white;
+            background-color: #00509e;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+        .return-button:hover {
+            background-color: #003366;
+        }
+        footer {
+            background-color: #003366;
+            color: white;
+            text-align: center;
+            padding: 1rem 0;
+            margin-top: 2rem;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Voltage Divider and Resistor Calculator</h1>
+    </header>
+    <div class="container">
+        <div class="form-container">
+            <a href="index.html" class="return-button">Back to Main Page</a>
+			<div class="diagram">
+			<h3>Stripline Diagram</h3>
+			<img src="voltagedivider-diagram.png" alt="Stripline Diagram" width="300px" />
+			</div>
+
+            <h2>Three-Resistor Voltage Divider</h2>
+            <form id="voltageForm">
+                <label for="r1">Resistor R1 (Ohms):</label>
+                <input type="number" id="r1" name="r1"><br><br>
+                <label for="r2">Resistor R2 (Ohms):</label>
+                <input type="number" id="r2" name="r2"><br><br>
+                <label for="r3">Resistor R3 (Ohms):</label>
+                <input type="number" id="r3" name="r3"><br><br>
+                <label for="vs">Source Voltage Vs (Volts):</label>
+                <input type="number" id="vs" name="vs"><br><br>
+                <button type="button" onclick="calculateVoltages()">Calculate Voltages</button>
+                <p>V1: <span id="v1"></span> V</p>
+                <p>V2: <span id="v2"></span> V</p>
+            </form>
+        </div>
+        <div class="form-container">
+            <h2>Two-Resistor Voltage Divider</h2>
+            <form id="twoResistorForm">
+                <label for="r1_2">Resistor R1 (Ohms):</label>
+                <input type="number" id="r1_2" name="r1_2"><br><br>
+                <label for="r2_2">Resistor R2 (Ohms):</label>
+                <input type="number" id="r2_2" name="r2_2"><br><br>
+                <label for="vs_2">Source Voltage Vs (Volts):</label>
+                <input type="number" id="vs_2" name="vs_2"><br><br>
+                <button type="button" onclick="calculateTwoResistorVoltage()">Calculate Voltage</button>
+                <p>Vout: <span id="vout_2"></span> V</p>
+            </form>
+        </div>
+        <div class="form-container">
+            <h2>Resistor Calculator Based on Voltages</h2>
+            <form id="resistorForm">
+                <label for="vs_resistor">Source Voltage Vs (Volts):</label>
+                <input type="number" id="vs_resistor" name="vs_resistor"><br><br>
+                <label for="v1_resistor">Voltage V1 (Volts):</label>
+                <input type="number" id="v1_resistor" name="v1_resistor"><br><br>
+                <label for="v2_resistor">Voltage V2 (Volts):</label>
+                <input type="number" id="v2_resistor" name="v2_resistor"><br><br>
+                <button type="button" onclick="calculateResistors()">Calculate Resistors</button>
+                <p>R1: <span id="r1_resistor"></span> Ω</p>
+                <p>R2: <span id="r2_resistor"></span> Ω</p>
+                <p>R3: <span id="r3_resistor"></span> Ω</p>
+            </form>
+        </div>
+    </div>
+    <footer>
+        <p>&copy; 2025 RF-in-Spec. All rights reserved.</p>
+    </footer>
+
+    <script>
+        function calculateVoltages() {
+            const r1 = parseFloat(document.getElementById('r1').value);
+            const r2 = parseFloat(document.getElementById('r2').value);
+            const r3 = parseFloat(document.getElementById('r3').value);
+            const vs = parseFloat(document.getElementById('vs').value);
+
+            const totalResistance = r1 + r2 + r3;
+            const current = vs / totalResistance;
+
+            const v1 = current * r1;
+            const v2 = current * (r1 + r2);
+
+            document.getElementById('v1').textContent = v1.toFixed(2);
+            document.getElementById('v2').textContent = v2.toFixed(2);
+        }
+
+        function calculateTwoResistorVoltage() {
+            const r1 = parseFloat(document.getElementById('r1_2').value);
+            const r2 = parseFloat(document.getElementById('r2_2').value);
+            const vs = parseFloat(document.getElementById('vs_2').value);
+
+            const vout = vs * (r2 / (r1 + r2));
+
+            document.getElementById('vout_2').textContent = vout.toFixed(2);
+        }
+
+        function calculateResistors() {
+            const vs = parseFloat(document.getElementById('vs_resistor').value);
+            const v1 = parseFloat(document.getElementById('v1_resistor').value);
+            const v2 = parseFloat(document.getElementById('v2_resistor').value);
+
+            const r1 = (v1 / vs) * 1000; // Example calculation
+            const r2 = ((v2 - v1) / vs) * 1000; // Example calculation
+            const r3 = ((vs - v2) / vs) * 1000; // Example calculation
+
+            document.getElementById('r1_resistor').textContent = r1.toFixed(2);
+            document.getElementById('r2_resistor').textContent = r2.toFixed(2);
+            document.getElementById('r3_resistor').textContent = r3.toFixed(2);
+        }
+    </script>
+</body>
+</html>

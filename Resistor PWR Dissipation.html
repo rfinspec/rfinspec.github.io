@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resistor Voltage Drop & Power Dissipation Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f8;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #003366;
+            color: white;
+            padding: 1rem 2rem;
+            text-align: center;
+        }
+        header h1 {
+            margin: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 1rem;
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .container h2 {
+            color: #00509e;
+            margin-bottom: 1rem;
+        }
+        .return-button {
+            display: inline-block;
+            margin-bottom: 1.5rem;
+            padding: 0.5rem 1rem;
+            font-size: 1rem;
+            color: white;
+            background-color: #00509e;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+        .return-button:hover {
+            background-color: #003366;
+        }
+        footer {
+            background-color: #003366;
+            color: white;
+            text-align: center;
+            padding: 1rem 0;
+            margin-top: 2rem;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        input, select, button {
+            padding: 8px;
+            margin: 5px 0;
+            box-sizing: border-box;
+        }
+        input[type="number"] {
+            width: 100%;
+            max-width: 200px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .diagram {
+            text-align: center;
+            margin: 20px 0;
+        }
+        .diagram img {
+            max-width: 100%;
+            height: auto;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 5px;
+            background-color: #f9f9f9;
+        }
+        #result {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Resistor Voltage Drop & Power Dissipation Calculator</h1>
+    </header>
+    <div class="container">
+        <a href="index.html" class="return-button">Back to Main Page</a>
+        <h2>Calculator</h2>
+        <p>Calculate the voltage drop and power dissipation for a given resistor based on its resistance and the current flowing through it.</p>
+
+        <!-- Diagram -->
+        <div class="diagram">
+            <p><strong>Resistor Circuit Diagram</strong></p>
+            <img src="resistor_diagram.png" alt="Resistor Circuit Diagram" />
+        </div>
+
+        <!-- Input Fields -->
+        <label for="resistance">Enter Resistance (Ω):</label>
+        <input type="number" id="resistance" placeholder="Enter resistance in ohms">
+
+        <label for="current">Enter Current (A):</label>
+        <input type="number" id="current" placeholder="Enter current in amps">
+
+        <!-- Button -->
+        <button onclick="calculateResults()">Calculate</button>
+
+        <!-- Results -->
+        <div id="result"></div>
+    </div>
+    <footer>
+        <p>&copy; 2025 RF-in-Spec. All rights reserved.</p>
+    </footer>
+
+    <script>
+        function calculateResults() {
+            // Get user input values
+            var resistance = parseFloat(document.getElementById('resistance').value);
+            var current = parseFloat(document.getElementById('current').value);
+
+            // Check if values are valid
+            if (isNaN(resistance) || isNaN(current)) {
+                alert('Please enter valid numeric values for resistance and current.');
+                return;
+            }
+
+            // Calculate voltage drop using Ohm's Law
+            var voltageDrop = current * resistance;
+
+            // Calculate power dissipation in the resistor
+            var powerDissipation = Math.pow(current, 2) * resistance;
+
+            // Calculate suggested power ratings with 50% and 100% safety margins
+            var safetyMargin50 = powerDissipation * 1.5;
+            var safetyMargin100 = powerDissipation * 2;
+
+            // Display the result and suggestions
+            document.getElementById('result').innerHTML = 'Voltage Drop: ' + voltageDrop.toFixed(2) + ' V<br>' +
+                                                         'Power Dissipation: ' + powerDissipation.toFixed(2) + ' W<br>' +
+                                                         'Suggested Power Ratings:<br>' +
+                                                         'With 50% Safety Margin: ' + safetyMargin50.toFixed(2) + ' W<br>' +
+                                                         'With 100% Safety Margin: ' + safetyMargin100.toFixed(2) + ' W';
+        }
+    </script>
+</body>
+</html>

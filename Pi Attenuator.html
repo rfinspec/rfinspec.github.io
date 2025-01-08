@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pi Attenuator Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f8;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #003366;
+            color: white;
+            padding: 1rem 2rem;
+            text-align: center;
+        }
+        header h1 {
+            margin: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 1rem;
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .container h2 {
+            color: #00509e;
+            margin-bottom: 1rem;
+        }
+        .return-button {
+            display: inline-block;
+            margin-bottom: 1.5rem;
+            padding: 0.5rem 1rem;
+            font-size: 1rem;
+            color: white;
+            background-color: #00509e;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+        .return-button:hover {
+            background-color: #003366;
+        }
+        footer {
+            background-color: #003366;
+            color: white;
+            text-align: center;
+            padding: 1rem 0;
+            margin-top: 2rem;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        input, select, button {
+            padding: 8px;
+            margin: 5px 0;
+            box-sizing: border-box;
+        }
+        input[type="text"] {
+            width: 100%;
+            max-width: 150px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .inline-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .field-group {
+            margin-right: 15px;
+        }
+        .field-group label {
+            margin-bottom: 3px;
+        }
+        .button-group {
+            margin-top: 15px;
+        }
+        .diagram {
+            text-align: center;
+            margin: 20px 0;
+        }
+        .diagram img {
+            max-width: 100%;
+            height: auto;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 5px;
+            background-color: #f9f9f9;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Pi Attenuator Calculator</h1>
+    </header>
+    <div class="container">
+        <a href="index.html" class="return-button">Back to Main Page</a>
+        <h2>Pi Attenuator Calculator</h2>
+        <p>Enter values for R1 and R2 to calculate attenuation.<br />
+        OR, Generate R1 and R2 for a desired attenuation.</p>
+
+        <!-- Diagram -->
+        <div class="diagram">
+            <p><strong>Pi Attenuator Circuit Diagram</strong></p>
+            <img src="pi_attenuator_diagram.jpg" alt="Pi Attenuator Circuit Diagram" />
+        </div>
+
+        <div class="inline-container">
+            <div class="field-group">
+                <label for="R1">R1:</label>
+                <input type="text" id="R1" placeholder="Enter R1 (Ω)" /> Ω
+            </div>
+            <div class="field-group">
+                <label for="R2">R2:</label>
+                <input type="text" id="R2" placeholder="Enter R2 (Ω)" /> Ω
+            </div>
+            <div class="field-group">
+                <label for="Zo">Zo:</label>
+                <input type="text" id="Zo" value="50" placeholder="Enter Zo (Ω)" /> Ω
+            </div>
+            <div class="button-group">
+                <button onclick="calculate()">Calculate</button>
+            </div>
+        </div>
+        <div class="field-group">
+            <label for="attenuation">Attenuation:</label>
+            <input type="text" id="attenuation" readonly placeholder="Attenuation (dB)" /> dB
+        </div>
+        <hr />
+        <div class="field-group">
+            <label for="dbin">Desired Attenuation:</label>
+            <input type="text" id="dbin" placeholder="Enter Attenuation (dB)" /> dB
+            <button onclick="generate()">Generate</button>
+        </div>
+    </div>
+    <footer>
+        <p>&copy; 2025 RF-in-Spec. All rights reserved.</p>
+    </footer>
+
+    <script>
+        function log10(x) {
+            return Math.log(x) / Math.log(10);
+        }
+        function calculate() {
+            var R1 = parseFloat(document.getElementById("R1").value);
+            var R2 = parseFloat(document.getElementById("R2").value);
+            var Zo = parseFloat(document.getElementById("Zo").value);
+            var R2p = (R2 * Zo) / (R2 + Zo);
+            var ZL = (R2 * (R2p + R1)) / (R2 + (R2p + R1));
+
+            var Pin = 1;
+            var Vsource = 2 * Math.sqrt(Zo * Pin);
+            var Iin = Vsource / (Zo + ZL);
+            var Vin = Vsource - (Iin * Zo);
+            var Vou = Vin * (R2p / (R2p + R1));
+            var Pou = Vou * Vou / Zo;
+
+            var gain = 10 * log10(Pou / Pin);
+            var atten = -1 * gain;
+
+            document.getElementById("attenuation").value = atten.toFixed(4);
+        }
+        function generate() {
+            var dbin = parseFloat(document.getElementById("dbin").value);
+            var Zo = parseFloat(document.getElementById("Zo").value);
+            var k = Math.pow(10, (dbin / 20));
+            var R1 = (Zo / 2) * ((Math.pow(k, 2) - 1) / k);
+            var R2 = Zo * ((k + 1) / (k - 1));
+            document.getElementById("R1").value = R1.toFixed(5);
+            document.getElementById("R2").value = R2.toFixed(5);
+            calculate();
+        }
+    </script>
+</body>
+</html>

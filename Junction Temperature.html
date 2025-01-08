@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Junction Temperature Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f8;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #003366;
+            color: white;
+            padding: 1rem 2rem;
+            text-align: center;
+        }
+        header h1 {
+            margin: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 1rem;
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .container h2 {
+            color: #00509e;
+            margin-bottom: 1rem;
+        }
+        .return-button {
+            display: inline-block;
+            margin-bottom: 1.5rem;
+            padding: 0.5rem 1rem;
+            font-size: 1rem;
+            color: white;
+            background-color: #00509e;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+        .return-button:hover {
+            background-color: #003366;
+        }
+        footer {
+            background-color: #003366;
+            color: white;
+            text-align: center;
+            padding: 1rem 0;
+            margin-top: 2rem;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        input {
+            width: 37.5%;
+            padding: 8px;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        #result {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Junction Temperature Calculator</h1>
+    </header>
+    <div class="container">
+        <a href="index.html" class="return-button">Back to Main Page</a>
+        <h2>Calculate Junction Temperature</h2>
+
+        <label for="ambientTemp">Ambient Temperature (°C):</label>
+        <input type="number" id="ambientTemp" step="0.01" placeholder="Enter Ambient Temperature">
+
+        <label for="thetaJC">Thermal Resistance Junction to Case (°C/W):</label>
+        <input type="number" id="thetaJC" step="0.01" placeholder="Enter Thermal Resistance Junction to Case">
+
+        <label for="thetaCS">Thermal Resistance Case to Sink (°C/W):</label>
+        <input type="number" id="thetaCS" step="0.01" placeholder="Enter Thermal Resistance Case to Sink">
+
+        <label for="thetaSA">Thermal Resistance Sink to Ambient (°C/W):</label>
+        <input type="number" id="thetaSA" step="0.01" placeholder="Enter Thermal Resistance Sink to Ambient">
+
+        <label for="inputPower">RF Input Power (W):</label>
+        <input type="number" id="inputPower" step="0.01" placeholder="Enter RF Input Power">
+
+        <label for="outputPower">RF Output Power (W):</label>
+        <input type="number" id="outputPower" step="0.01" placeholder="Enter RF Output Power">
+
+        <label for="dcPower">DC Power Dissipation (W):</label>
+        <input type="number" id="dcPower" step="0.01" placeholder="Enter DC Power Dissipation">
+
+        <button onclick="calculateJunctionTemp()">Calculate</button>
+
+        <div id="result"></div>
+    </div>
+    <footer>
+        <p>&copy; 2025 RF-in-Spec. All rights reserved.</p>
+    </footer>
+
+    <script>
+        function calculateJunctionTemp() {
+            var ambientTemp = parseFloat(document.getElementById("ambientTemp").value);
+            var thetaJC = parseFloat(document.getElementById("thetaJC").value);
+            var thetaCS = parseFloat(document.getElementById("thetaCS").value);
+            var thetaSA = parseFloat(document.getElementById("thetaSA").value);
+            var inputPower = parseFloat(document.getElementById("inputPower").value);
+            var outputPower = parseFloat(document.getElementById("outputPower").value);
+            var dcPower = parseFloat(document.getElementById("dcPower").value);
+
+            if (isNaN(ambientTemp) || isNaN(thetaJC) || isNaN(thetaCS) || isNaN(thetaSA) || isNaN(inputPower) || isNaN(outputPower) || isNaN(dcPower)) {
+                document.getElementById("result").innerHTML = "Please enter valid numbers for all fields.";
+                return;
+            }
+
+            var power = dcPower + (outputPower + inputPower);
+            var Tcase = ambientTemp + (thetaJC + thetaCS) * power;
+            var Tjunction = Tcase + thetaSA * power;
+
+            document.getElementById("result").innerHTML = "Junction Temperature: " + Tjunction.toFixed(2) + " °C";
+        }
+    </script>
+</body>
+</html>

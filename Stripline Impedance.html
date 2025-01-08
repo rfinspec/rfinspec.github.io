@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stripline Impedance Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f8;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #003366;
+            color: white;
+            padding: 1rem 2rem;
+            text-align: center;
+        }
+        header h1 {
+            margin: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 1rem;
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .container h2 {
+            color: #00509e;
+            margin-bottom: 1rem;
+        }
+        .return-button {
+            display: inline-block;
+            margin-bottom: 1.5rem;
+            padding: 0.5rem 1rem;
+            font-size: 1rem;
+            color: white;
+            background-color: #00509e;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+        .return-button:hover {
+            background-color: #003366;
+        }
+        footer {
+            background-color: #003366;
+            color: white;
+            text-align: center;
+            padding: 1rem 0;
+            margin-top: 2rem;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        input, button {
+            padding: 8px;
+            margin: 5px 0;
+            box-sizing: border-box;
+        }
+        input[type="number"] {
+            width: 100%;
+            max-width: 200px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .input-group {
+            margin-bottom: 1rem;
+        }
+        .input-group label {
+            font-size: 1rem;
+        }
+        .diagram {
+            text-align: center;
+            margin: 20px 0;
+        }
+        .result {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+        .result input {
+            width: 100%;
+            max-width: 200px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Stripline Impedance Calculator</h1>
+    </header>
+    <div class="container">
+        <a href="index.html" class="return-button">Back to Main Page</a>
+        <h2>Calculate Stripline Impedance</h2>
+		<div class="diagram">
+    <h3>Stripline Diagram</h3>
+    <img src="stripline-diagram.png" alt="Stripline Diagram" width="300px" />
+		</div>
+        <p>Enter the following parameters to calculate the stripline impedance:</p>
+
+        <!-- Input Fields -->
+        <div class="input-group">
+            <label for="w">Width (mm):</label>
+            <input type="number" id="w" value="0.2">
+        </div>
+        <div class="input-group">
+            <label for="t">Thickness (µm):</label>
+            <input type="number" id="t" value="17">
+        </div>
+        <div class="input-group">
+            <label for="h1">Height 1 (mm):</label>
+            <input type="number" id="h1" value="0.2">
+        </div>
+        <div class="input-group">
+            <label for="h2">Height 2 (mm):</label>
+            <input type="number" id="h2" value="0.3">
+        </div>
+        <div class="input-group">
+            <label for="Er">Relative Permittivity (Er):</label>
+            <input type="number" id="Er" value="4.46">
+        </div>
+
+        <!-- Button -->
+        <button onclick="calculate()">Calculate Impedance</button>
+
+        <!-- Results -->
+        <div class="result">
+            <label for="impedance">Impedance (Ω):</label>
+            <input type="text" id="impedance" readonly>
+        </div>
+    </div>
+    <footer>
+        <p>&copy; 2025 RF-in-Spec. All rights reserved.</p>
+    </footer>
+
+    <script>
+        function calculate() {
+            var w = parseFloat(document.getElementById("w").value) / 1000;
+            var t = parseFloat(document.getElementById("t").value) / 1000000;
+            var h1 = parseFloat(document.getElementById("h1").value) / 1000;
+            var h2 = parseFloat(document.getElementById("h2").value) / 1000;
+            var Er = parseFloat(document.getElementById("Er").value);
+
+            // Calculate the impedance using the formula
+            var Zo = Zooffstrip(Er, w, h1, h2, t);
+
+            // Output the impedance result to the screen
+            Zo = Zo.toPrecision(4);
+            document.getElementById("impedance").value = Zo;
+        }
+
+        function F(x) {
+            var result = (1 - (2 * x)) * (((1 - x) * Math.log(1-x)) - (x * Math.log(x)));
+            return result;
+        }
+
+        function coth(x) {
+            return ((Math.exp(x) + Math.exp(-1 * x)) / (Math.exp(x) - Math.exp(-1 * x)));
+        }
+
+        function arcosh(x) {
+            return Math.log(x + Math.sqrt(Math.pow(x, 2) - 1));
+        }
+
+        function Zooffstrip(er, w, h1, h2, t) {
+            var no = 376.73;
+            var b = h1 + h2 + t;
+            var s = Math.abs(h1 - h2);
+            var cl = (b - s) / 2;
+            var y = (cl / b) - (t / (2 * b));
+            var bt = 1 - (t / b);
+            var e0 = 8.854183e-12;
+
+            var x = (w >= t) ? t / w : w / t;
+            var d0 = w * (0.5008 + 1.0235 * x - 1.0230 * Math.pow(x, 2) + 1.1564 * Math.pow(x, 3) - 0.4749 * Math.pow(x, 4));
+            var A = Math.sin(Math.PI * cl / b) * coth(Math.PI * d0 / (2 * b));
+            var zn = no / (2 * Math.PI * Math.sqrt(er)) * arcosh(A);
+            var cf = (er * e0 / Math.PI) * ((2 * Math.log(1 / (y * (bt - y)))) + (1 / (y * (bt - y))) * (F(t / (2 * b)) - F(cl / b)));
+            var zw = (no / Math.sqrt(er)) * 1 / (w / (b * y) + w / (b * (bt - y)) + 2 * cf / (e0 * er));
+
+            var zo = (w / (h1 + h2)) < 0.35 ? zn : zw;
+            return zo;
+        }
+    </script>
+</body>
+</html>

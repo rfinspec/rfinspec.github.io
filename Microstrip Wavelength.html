@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Microstrip Wavelength Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f8;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #003366;
+            color: white;
+            padding: 1rem 2rem;
+            text-align: center;
+        }
+        header h1 {
+            margin: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 1rem;
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .container h2 {
+            color: #00509e;
+            margin-bottom: 1rem;
+        }
+        .return-button {
+            display: inline-block;
+            margin-bottom: 1.5rem;
+            padding: 0.5rem 1rem;
+            font-size: 1rem;
+            color: white;
+            background-color: #00509e;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+        .return-button:hover {
+            background-color: #003366;
+        }
+        footer {
+            background-color: #003366;
+            color: white;
+            text-align: center;
+            padding: 1rem 0;
+            margin-top: 2rem;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        input, select {
+            width: 37.5%;
+            padding: 8px;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        #result {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Microstrip Wavelength Calculator</h1>
+    </header>
+    <div class="container">
+        <a href="index.html" class="return-button">Back to Main Page</a>
+        <h2>Calculate Microstrip Wavelength</h2>
+
+        <label for="frequency">Frequency (MHz):</label>
+        <input type="number" id="frequency" step="0.01" placeholder="Enter Frequency (MHz)">
+
+        <label for="dielectric">Dielectric Constant:</label>
+        <input type="number" id="dielectric" step="0.01" placeholder="Enter Dielectric Constant">
+
+        <label for="wavelengthType">Wavelength Type:</label>
+        <select id="wavelengthType" onchange="toggleInput()">
+            <option value="degrees">Degrees</option>
+            <option value="mm">Millimeters</option>
+        </select>
+
+        <div id="wavelengthDegreesInput">
+            <label for="wavelengthDeg">Wavelength (degrees):</label>
+            <input type="number" id="wavelengthDeg" step="0.01" placeholder="Enter Wavelength in Degrees">
+        </div>
+
+        <div id="wavelengthMmInput" style="display: none;">
+            <label for="wavelengthMm">Wavelength (mm):</label>
+            <input type="number" id="wavelengthMm" step="0.01" placeholder="Enter Wavelength in Millimeters">
+        </div>
+
+        <button type="button" onclick="calculateWavelength()">Calculate</button>
+
+        <div id="result"></div>
+    </div>
+    <footer>
+        <p>&copy; 2025 RF-in-Spec. All rights reserved.</p>
+    </footer>
+
+    <script>
+        function toggleInput() {
+            const type = document.getElementById("wavelengthType").value;
+            if (type === "degrees") {
+                document.getElementById("wavelengthDegreesInput").style.display = "block";
+                document.getElementById("wavelengthMmInput").style.display = "none";
+            } else {
+                document.getElementById("wavelengthDegreesInput").style.display = "none";
+                document.getElementById("wavelengthMmInput").style.display = "block";
+            }
+        }
+
+        function calculateWavelength() {
+            const c = 3e8; // Speed of light in m/s
+            const frequency = document.getElementById("frequency").value * 1e6; // Convert MHz to Hz
+            const dielectric = document.getElementById("dielectric").value;
+            const type = document.getElementById("wavelengthType").value;
+            let wavelengthMm, wavelengthDeg;
+
+            if (type === "degrees") {
+                const wavelengthDeg = document.getElementById("wavelengthDeg").value;
+                if (frequency && dielectric && wavelengthDeg) {
+                    const wavelengthMmCalc = c / (frequency * Math.sqrt(dielectric)) * 1e3; // mm
+                    wavelengthMm = (wavelengthDeg / 360) * wavelengthMmCalc;
+                } else {
+                    document.getElementById("result").innerHTML = "<p>Please enter all required fields.</p>";
+                    return;
+                }
+            } else {
+                const wavelengthMm = document.getElementById("wavelengthMm").value;
+                if (frequency && dielectric && wavelengthMm) {
+                    const wavelengthMmCalc = c / (frequency * Math.sqrt(dielectric)) * 1e3; // mm
+                    wavelengthDeg = (wavelengthMm / wavelengthMmCalc) * 360;
+                } else {
+                    document.getElementById("result").innerHTML = "<p>Please enter all required fields.</p>";
+                    return;
+                }
+            }
+
+            document.getElementById("result").innerHTML = `
+                <p>Calculated Wavelength: ${wavelengthMm ? wavelengthMm.toFixed(2) + " mm" : ""}</p>
+                <p>Equivalent Wavelength: ${wavelengthDeg ? wavelengthDeg.toFixed(2) + " degrees" : ""}</p>
+            `;
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reactance Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f8;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #003366;
+            color: white;
+            padding: 1rem 2rem;
+            text-align: center;
+        }
+        header h1 {
+            margin: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 1rem;
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .container h2 {
+            color: #00509e;
+            margin-bottom: 1rem;
+        }
+        .return-button {
+            display: inline-block;
+            margin-bottom: 1.5rem;
+            padding: 0.5rem 1rem;
+            font-size: 1rem;
+            color: white;
+            background-color: #00509e;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+        .return-button:hover {
+            background-color: #003366;
+        }
+        footer {
+            background-color: #003366;
+            color: white;
+            text-align: center;
+            padding: 1rem 0;
+            margin-top: 2rem;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        input {
+            width: 37.5%;
+            padding: 8px;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        #result {
+            margin-top: 20px;
+        }
+        .reactance-option {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .reactance-option input {
+            margin-right: 10px;
+        }
+        .reactance-container {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Reactance Calculator</h1>
+    </header>
+    <div class="container">
+        <a href="index.html" class="return-button">Back to Main Page</a>
+        <h2>Reactance Calculator</h2>
+        <p>Select the type of reactance calculation:</p>
+        <div class="reactance-container">
+            <div class="reactance-option">
+                <input type="radio" name="reactance" value="inductive" checked onclick="toggleInputs()"> 
+                <label>Inductive Reactance (Xl)</label>
+            </div>
+            <div class="reactance-option">
+                <input type="radio" name="reactance" value="capacitive" onclick="toggleInputs()"> 
+                <label>Capacitive Reactance (Xc)</label>
+            </div>
+        </div>
+        <br>
+
+        <label for="frequency">Frequency (in MHz):</label>
+        <input type="number" id="frequency" step="any" required>
+        <br><br>
+
+        <div id="inductive-inputs">
+            <label for="inductance">Inductance (in nH):</label>
+            <input type="number" id="inductance" step="any">
+        </div>
+
+        <div id="capacitive-inputs" style="display: none;">
+            <label for="capacitance">Capacitance (in pF):</label>
+            <input type="number" id="capacitance" step="any">
+        </div>
+
+        <br><br>
+        <button onclick="calculateReactance()">Calculate</button>
+
+        <p id="result"></p>
+    </div>
+    <footer>
+        <p>&copy; 2025 RF-in-Spec. All rights reserved.</p>
+    </footer>
+    <script>
+        // Function to calculate Inductive Reactance (Xl)
+        function calculateInductiveReactance(frequency, inductance_nH) {
+            var inductance_H = inductance_nH * 1e-9;  // Convert nH to H
+            var Xl = 2 * Math.PI * frequency * inductance_H;
+            return Xl;
+        }
+
+        // Function to calculate Capacitive Reactance (Xc)
+        function calculateCapacitiveReactance(frequency, capacitance_pF) {
+            var capacitance_F = capacitance_pF * 1e-12;  // Convert pF to F
+            var Xc = 1 / (2 * Math.PI * frequency * capacitance_F);
+            return Xc;
+        }
+
+        // Function to handle the calculation based on user selection
+        function calculateReactance() {
+            var choice = document.querySelector('input[name="reactance"]:checked').value;
+            var frequency_MHz = parseFloat(document.getElementById('frequency').value);
+            var frequency_Hz = frequency_MHz * 1e6;  // Convert MHz to Hz
+
+            if (choice == "inductive") {
+                var inductance_nH = parseFloat(document.getElementById('inductance').value);
+                var Xl = calculateInductiveReactance(frequency_Hz, inductance_nH);
+                document.getElementById('result').innerText = "Inductive Reactance (Xl) = " + Xl.toFixed(2) + " Ohms";
+            } else if (choice == "capacitive") {
+                var capacitance_pF = parseFloat(document.getElementById('capacitance').value);
+                var Xc = calculateCapacitiveReactance(frequency_Hz, capacitance_pF);
+                document.getElementById('result').innerText = "Capacitive Reactance (Xc) = " + Xc.toFixed(2) + " Ohms";
+            }
+        }
+
+        // Function to dynamically show the correct input fields based on reactance choice
+        function toggleInputs() {
+            var choice = document.querySelector('input[name="reactance"]:checked').value;
+            if (choice == 'inductive') {
+                document.getElementById('inductive-inputs').style.display = 'block';
+                document.getElementById('capacitive-inputs').style.display = 'none';
+            } else {
+                document.getElementById('inductive-inputs').style.display = 'none';
+                document.getElementById('capacitive-inputs').style.display = 'block';
+            }
+        }
+
+        // Initialize inputs display on page load
+        window.onload = toggleInputs;
+    </script>
+</body>
+</html>

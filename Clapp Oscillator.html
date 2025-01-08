@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clapp Oscillator Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f8;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #003366;
+            color: white;
+            padding: 1rem 2rem;
+            text-align: center;
+        }
+        header h1 {
+            margin: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 1rem;
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .container h2 {
+            color: #00509e;
+            margin-bottom: 1rem;
+        }
+        .return-button {
+            display: inline-block;
+            margin-bottom: 1.5rem;
+            padding: 0.5rem 1rem;
+            font-size: 1rem;
+            color: white;
+            background-color: #00509e;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+        .return-button:hover {
+            background-color: #003366;
+        }
+        footer {
+            background-color: #003366;
+            color: white;
+            text-align: center;
+            padding: 1rem 0;
+            margin-top: 2rem;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        input, select, button {
+            padding: 8px;
+            margin: 5px 0;
+            box-sizing: border-box;
+        }
+        input[type="number"] {
+            width: 100%;
+            max-width: 200px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .diagram {
+            text-align: center;
+            margin: 20px 0;
+        }
+        .diagram img {
+            max-width: 100%;
+            height: auto;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 5px;
+            background-color: #f9f9f9;
+        }
+        #result {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Clapp Oscillator Calculator</h1>
+    </header>
+    <div class="container">
+        <a href="index.html" class="return-button">Back to Main Page</a>
+        <h2>Calculator</h2>
+        <p>Calculate the resonance frequency of a Clapp oscillator based on its components.</p>
+
+        <!-- Diagram -->
+        <div class="diagram">
+            <p><strong>Clapp Oscillator Circuit Diagram</strong></p>
+            <img src="clapp_oscillator_diagram.png" alt="Clapp Oscillator Circuit Diagram" />
+        </div>
+
+        <!-- Input Fields -->
+        <label for="txtL">Enter L [nH]:</label>
+        <input type="number" id="txtL" placeholder="Enter inductance in nH">
+
+        <label for="txtC0">Enter C0 [pF]:</label>
+        <input type="number" id="txtC0" placeholder="Enter capacitance C0 in pF">
+
+        <label for="txtC1">Enter C1 [pF]:</label>
+        <input type="number" id="txtC1" placeholder="Enter capacitance C1 in pF">
+
+        <label for="txtC2">Enter C2 [pF]:</label>
+        <input type="number" id="txtC2" placeholder="Enter capacitance C2 in pF">
+
+        <!-- Button -->
+        <button onclick="calcResFreq()">Calculate Resonant Frequency</button>
+        <button onclick="reset()">Reset</button>
+
+        <!-- Results -->
+        <div id="result">
+            <label for="txtResFreq">Resonance Frequency [MHz]:</label>
+            <input type="text" id="txtResFreq" value="0" disabled>
+        </div>
+    </div>
+    <footer>
+        <p>&copy; 2025 RF-in-Spec. All rights reserved.</p>
+    </footer>
+
+    <script>
+        function reset() {
+            document.getElementById("txtL").value = "0";
+            document.getElementById("txtC0").value = "0";
+            document.getElementById("txtC1").value = "0";
+            document.getElementById("txtC2").value = "0";
+        }
+
+        function calcResFreq() {    
+            var L = Number(document.getElementById("txtL").value);
+            var LnH = L * 1E-9;
+            var InvL = 1 / LnH;
+            var C0 = Number(document.getElementById("txtC0").value);
+            var C0pF = C0 * 1E-12;
+            var InvC0 = 1 / C0pF;
+            var C1 = Number(document.getElementById("txtC1").value);
+            var C1pF = C1 * 1E-12;
+            var InvC1 = 1 / C1pF;
+            var C2 = Number(document.getElementById("txtC2").value);
+            var C2pF = C2 * 1E-12;
+            var InvC2 = 1 / C2pF;
+            var ResFreq = (1 / 6.28) * Math.sqrt(InvL * (InvC0 + InvC1 + InvC2));
+            var ResFreqMHz = ResFreq / 1000000;
+            let ResFreqMHzround = ResFreqMHz.toFixed(2);
+            document.getElementById("txtResFreq").value = String(ResFreqMHzround);
+        }
+    </script>
+</body>
+</html>

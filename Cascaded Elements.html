@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cascaded Elements Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f8;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #003366;
+            color: white;
+            padding: 1rem 2rem;
+            text-align: center;
+        }
+        header h1 {
+            margin: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 1rem;
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .container h2 {
+            color: #00509e;
+            margin-bottom: 1rem;
+        }
+        .return-button {
+            display: inline-block;
+            margin-bottom: 1.5rem;
+            padding: 0.5rem 1rem;
+            font-size: 1rem;
+            color: white;
+            background-color: #00509e;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+        .return-button:hover {
+            background-color: #003366;
+        }
+        footer {
+            background-color: #003366;
+            color: white;
+            text-align: center;
+            padding: 1rem 0;
+            margin-top: 2rem;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        input {
+            width: 12.5%;
+            padding: 8px;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        #result {
+            margin-top: 20px;
+        }
+        .stages-span {
+            margin-left: 20px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Cascaded Elements Calculator</h1>
+    </header>
+    <div class="container">
+        <a href="index.html" class="return-button">Back to Main Page</a>
+        <h2>Calculate Cascaded Total Parameters</h2>
+
+        <label for="stages">Stages:</label>
+        <select name="stages" id="stages">
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+        </select>
+
+        <input type="button" value="Select number of stages and click" onclick="HideTextBox()"><br/><br/>
+
+        <span class="stages-span">Stage 1</span>
+        <span class="stages-span">Stage 2</span>
+        <span class="stages-span">Stage 3</span>
+        <span class="stages-span">Stage 4</span>
+        <span class="stages-span">Stage 5</span>
+
+        <p><label for="G1">Gain:</label>
+            <input type="text" id="G1" size="4"/>
+            <input type="text" id="G2" size="4"/>
+            <input type="text" id="G3" size="4" style="visibility: hidden;"/>
+            <input type="text" id="G4" size="4" style="visibility: hidden;"/>
+            <input type="text" id="G5" size="4" style="visibility: hidden;"/>
+        </p>
+
+        <p><label for="NF1">NF:</label>
+            <input type="text" id="NF1" size="4"/>
+            <input type="text" id="NF2" size="4"/>
+            <input type="text" id="NF3" size="4" style="visibility: hidden;"/>
+            <input type="text" id="NF4" size="4" style="visibility: hidden;"/>
+            <input type="text" id="NF5" size="4" style="visibility: hidden;"/>
+        </p>
+
+        <p><label for="P1dB">P1dB:</label>
+            <input type="text" id="P1" size="4"/>
+            <input type="text" id="P2" size="4"/>
+            <input type="text" id="P3" size="4" style="visibility: hidden;"/>
+            <input type="text" id="P4" size="4" style="visibility: hidden;"/>
+            <input type="text" id="P5" size="4" style="visibility: hidden;"/>
+        </p>
+
+        <p><label for="IP1">OIP3:</label>
+            <input type="text" id="IP1" size="4"/>
+            <input type="text" id="IP2" size="4"/>
+            <input type="text" id="IP3" size="4" style="visibility: hidden;"/>
+            <input type="text" id="IP4" size="4" style="visibility: hidden;"/>
+            <input type="text" id="IP5" size="4" style="visibility: hidden;"/>
+        </p>
+
+        <p><label for="Gt">Gain (total):</label>
+            <input type="text" id="Gt" size="4" disabled/>
+        </p>
+
+        <p><label for="NFt">NF (total):</label>
+            <input type="text" id="NFt" size="4" disabled/>
+        </p>
+
+        <p><label for="Pt">P1dB (total):</label>
+            <input type="text" id="Pt" size="4" disabled/>
+        </p>
+
+        <p><label for="IPt">OIP3 (total):</label>
+            <input type="text" id="IPt" size="4" disabled/>
+        </p>
+
+        <button onclick="CalcTotal()">Calculate</button>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 RF-in-Spec. All rights reserved.</p>
+    </footer>
+
+    <script>
+        function HideTextBox(){
+            var x = document.getElementById("stages").value;
+            if (x == 2) {
+                document.getElementById("G1").style.visibility = 'visible';
+                document.getElementById("G2").style.visibility = 'visible';
+                document.getElementById("G3").style.visibility = 'hidden';
+                document.getElementById("G4").style.visibility = 'hidden';
+                document.getElementById("G5").style.visibility = 'hidden';
+                document.getElementById("NF1").style.visibility = 'visible';
+                document.getElementById("NF2").style.visibility = 'visible';
+                document.getElementById("NF3").style.visibility = 'hidden';
+                document.getElementById("NF4").style.visibility = 'hidden';
+                document.getElementById("NF5").style.visibility = 'hidden';
+                document.getElementById("P1").style.visibility = 'visible';
+                document.getElementById("P2").style.visibility = 'visible';
+                document.getElementById("P3").style.visibility = 'hidden';
+                document.getElementById("P4").style.visibility = 'hidden';
+                document.getElementById("P5").style.visibility = 'hidden';
+                document.getElementById("IP1").style.visibility = 'visible';
+                document.getElementById("IP2").style.visibility = 'visible';
+                document.getElementById("IP3").style.visibility = 'hidden';
+                document.getElementById("IP4").style.visibility = 'hidden';
+                document.getElementById("IP5").style.visibility = 'hidden';
+            }
+            else if (x == 3) {
+                document.getElementById("G1").style.visibility = 'visible';
+                document.getElementById("G2").style.visibility = 'visible';
+                document.getElementById("G3").style.visibility = 'visible';
+                document.getElementById("G4").style.visibility = 'hidden';
+                document.getElementById("G5").style.visibility = 'hidden';
+                document.getElementById("NF1").style.visibility = 'visible';
+                document.getElementById("NF2").style.visibility = 'visible';
+                document.getElementById("NF3").style.visibility = 'visible';
+                document.getElementById("NF4").style.visibility = 'hidden';
+                document.getElementById("NF5").style.visibility = 'hidden';
+                document.getElementById("P1").style.visibility = 'visible';
+                document.getElementById("P2").style.visibility = 'visible';
+                document.getElementById("P3").style.visibility = 'visible';
+                document.getElementById("P4").style.visibility = 'hidden';
+                document.getElementById("P5").style.visibility = 'hidden';
+                document.getElementById("IP1").style.visibility = 'visible';
+                document.getElementById("IP2").style.visibility = 'visible';
+                document.getElementById("IP3").style.visibility = 'visible';
+                document.getElementById("IP4").style.visibility = 'hidden';
+                document.getElementById("IP5").style.visibility = 'hidden';
+            }
+            else if (x == 4) {
+                document.getElementById("G1").style.visibility = 'visible';
+                document.getElementById("G2").style.visibility = 'visible';
+                document.getElementById("G3").style.visibility = 'visible';
+                document.getElementById("G4").style.visibility = 'visible';
+                document.getElementById("G5").style.visibility = 'hidden';
+                document.getElementById("NF1").style.visibility = 'visible';
+                document.getElementById("NF2").style.visibility = 'visible';
+                document.getElementById("NF3").style.visibility = 'visible';
+                document.getElementById("NF4").style.visibility = 'visible';
+                document.getElementById("NF5").style.visibility = 'hidden';
+                document.getElementById("P1").style.visibility = 'visible';
+                document.getElementById("P2").style.visibility = 'visible';
+                document.getElementById("P3").style.visibility = 'visible';
+                document.getElementById("P4").style.visibility = 'visible';
+                document.getElementById("P5").style.visibility = 'hidden';
+                document.getElementById("IP1").style.visibility = 'visible';
+                document.getElementById("IP2").style.visibility = 'visible';
+                document.getElementById("IP3").style.visibility = 'visible';
+                document.getElementById("IP4").style.visibility = 'visible';
+                document.getElementById("IP5").style.visibility = 'hidden';
+            }
+            else if (x == 5) {
+                document.getElementById("G1").style.visibility = 'visible';
+                document.getElementById("G2").style.visibility = 'visible';
+                document.getElementById("G3").style.visibility = 'visible';
+                document.getElementById("G4").style.visibility = 'visible';
+                document.getElementById("G5").style.visibility = 'visible';
+                document.getElementById("NF1").style.visibility = 'visible';
+                document.getElementById("NF2").style.visibility = 'visible';
+                document.getElementById("NF3").style.visibility = 'visible';
+                document.getElementById("NF4").style.visibility = 'visible';
+                document.getElementById("NF5").style.visibility = 'visible';
+                document.getElementById("P1").style.visibility = 'visible';
+                document.getElementById("P2").style.visibility = 'visible';
+                document.getElementById("P3").style.visibility = 'visible';
+                document.getElementById("P4").style.visibility = 'visible';
+                document.getElementById("P5").style.visibility = 'visible';
+                document.getElementById("IP1").style.visibility = 'visible';
+                document.getElementById("IP2").style.visibility = 'visible';
+                document.getElementById("IP3").style.visibility = 'visible';
+                document.getElementById("IP4").style.visibility = 'visible';
+                document.getElementById("IP5").style.visibility = 'visible';
+            }
+        }
+
+        function CalcTotal(){
+            var G1 = parseFloat(document.getElementById("G1").value);
+            var G2 = parseFloat(document.getElementById("G2").value);
+            var G3 = parseFloat(document.getElementById("G3").value) || 0;
+            var G4 = parseFloat(document.getElementById("G4").value) || 0;
+            var G5 = parseFloat(document.getElementById("G5").value) || 0;
+
+            var NF1 = parseFloat(document.getElementById("NF1").value);
+            var NF2 = parseFloat(document.getElementById("NF2").value);
+            var NF3 = parseFloat(document.getElementById("NF3").value) || 0;
+            var NF4 = parseFloat(document.getElementById("NF4").value) || 0;
+            var NF5 = parseFloat(document.getElementById("NF5").value) || 0;
+
+            var P1 = parseFloat(document.getElementById("P1").value);
+            var P2 = parseFloat(document.getElementById("P2").value);
+            var P3 = parseFloat(document.getElementById("P3").value) || 0;
+            var P4 = parseFloat(document.getElementById("P4").value) || 0;
+            var P5 = parseFloat(document.getElementById("P5").value) || 0;
+
+            var IP1 = parseFloat(document.getElementById("IP1").value);
+            var IP2 = parseFloat(document.getElementById("IP2").value);
+            var IP3 = parseFloat(document.getElementById("IP3").value) || 0;
+            var IP4 = parseFloat(document.getElementById("IP4").value) || 0;
+            var IP5 = parseFloat(document.getElementById("IP5").value) || 0;
+
+            var Gt = G1 + G2 + G3 + G4 + G5;
+            var NFt = NF1 + (NF2 / G1) + (NF3 / (G1 * G2)) + (NF4 / (G1 * G2 * G3)) + (NF5 / (G1 * G2 * G3 * G4));
+            var Pt = Math.min(P1, P2, P3, P4, P5);
+            var IPt = Math.min(IP1, IP2, IP3, IP4, IP5);
+
+            document.getElementById("Gt").value = Gt.toFixed(2);
+            document.getElementById("NFt").value = NFt.toFixed(2);
+            document.getElementById("Pt").value = Pt.toFixed(2);
+            document.getElementById("IPt").value = IPt.toFixed(2);
+        }
+    </script>
+</body>
+</html>

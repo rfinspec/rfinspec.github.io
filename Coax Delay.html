@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coax Delay Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f8;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #003366;
+            color: white;
+            padding: 1rem 2rem;
+            text-align: center;
+        }
+        header h1 {
+            margin: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 1rem;
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .container h2 {
+            color: #00509e;
+            margin-bottom: 1rem;
+        }
+        .return-button {
+            display: inline-block;
+            margin-bottom: 1.5rem;
+            padding: 0.5rem 1rem;
+            font-size: 1rem;
+            color: white;
+            background-color: #00509e;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+        .return-button:hover {
+            background-color: #003366;
+        }
+        footer {
+            background-color: #003366;
+            color: white;
+            text-align: center;
+            padding: 1rem 0;
+            margin-top: 2rem;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        input, button {
+            padding: 8px;
+            margin: 5px 0;
+            box-sizing: border-box;
+        }
+        input[type="text"] {
+            width: 100%;
+            max-width: 200px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        #result {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Coax Delay Calculator</h1>
+    </header>
+    <div class="container">
+        <a href="index.html" class="return-button">Back to Main Page</a>
+        <h2>Calculate Coax Cable Delay</h2>
+        <p>Calculate the delay for a coaxial cable given its length and velocity factor.</p>
+
+        <!-- Input Fields -->
+        <label for="length">Enter Length [mm]:</label>
+        <input type="text" id="length" value="150">
+
+        <label for="velocityFactor">Enter Velocity Factor:</label>
+        <input type="text" id="velocityFactor" value="0.7">
+
+        <!-- Button -->
+        <button onclick="calculateDelay()">Calculate Delay</button>
+
+        <!-- Results -->
+        <div id="result">
+            <!-- The result will appear here after calculation -->
+        </div>
+    </div>
+    <footer>
+        <p>&copy; 2025 RF-in-Spec. All rights reserved.</p>
+    </footer>
+
+    <script>
+        function calculateDelay() {
+            const lengthInMm = parseFloat(document.getElementById('length').value);
+            const lengthInMeters = lengthInMm / 1000; // Convert mm to meters
+            const velocityFactor = parseFloat(document.getElementById('velocityFactor').value);
+            const speedOfLight = 3 * Math.pow(10, 8); // Speed of light in meters per second
+            const delayInSeconds = lengthInMeters / (speedOfLight * velocityFactor);
+            const delayInPicoseconds = delayInSeconds * Math.pow(10, 12); // Convert seconds to picoseconds
+            document.getElementById('result').innerText = `The delay is ${delayInPicoseconds.toFixed(2)} picoseconds.`;
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Power Conversion</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f8;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #003366;
+            color: white;
+            padding: 1rem 2rem;
+            text-align: center;
+        }
+        header h1 {
+            margin: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 1rem;
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .container h2 {
+            color: #00509e;
+            margin-bottom: 1rem;
+        }
+        .return-button {
+            display: inline-block;
+            margin-bottom: 1.5rem;
+            padding: 0.5rem 1rem;
+            font-size: 1rem;
+            color: white;
+            background-color: #00509e;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+        .return-button:hover {
+            background-color: #003366;
+        }
+        footer {
+            background-color: #003366;
+            color: white;
+            text-align: center;
+            padding: 1rem 0;
+            margin-top: 2rem;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        input {
+            width: 37.5%;
+            padding: 8px;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        #result {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Power Converter Calculator</h1>
+    </header>
+    <div class="container">
+        <a href="index.html" class="return-button">Back to Main Page</a>
+<h2>Power Converter</h2>
+
+  <label for="inputPower">Enter Power (dBm or Watts):</label>
+  <input type="text" id="inputPower" placeholder="Enter Power">
+
+  <br>
+
+  <label for="inputImpedance">Enter Impedance (ohms):</label>
+  <input type="number" id="inputImpedance" placeholder="Enter Impedance">
+
+  <br>
+
+  <label for="conversionType">Choose Conversion:</label>
+  <select id="conversionType">
+    <option value="dBmToWatts">dBm to Watts</option>
+    <option value="wattsToDBm">Watts to dBm</option>
+  </select>
+
+  <button onclick="convertPower()">Convert</button>
+
+  <h2>Results:</h2>
+  <p id="resultWatts">Watts: </p>
+  <p id="resultDBm">dBm: </p>
+  <p id="resultRMSVoltage">RMS Voltage: </p>
+    </header>
+    <div class="container">
+        <a href="index.html" class="return-button">Back to Main Page</a>
+        <h2>Power Conversion Calculator</h2>
+
+    </div>
+    <footer>
+        <p>&copy; 2025 RF-in-Spec. All rights reserved.</p>
+    </footer>
+
+    <script>
+	  function convertPower() {
+      // Get user inputs
+      var inputPower = parseFloat(document.getElementById('inputPower').value) || 0;
+      var inputImpedance = parseFloat(document.getElementById('inputImpedance').value) || 50; // Default to 50 ohms
+      var conversionType = document.getElementById('conversionType').value;
+
+      // Constants
+      var referenceResistance = inputImpedance;
+
+      if (conversionType === 'dBmToWatts') {
+        // Convert dBm to Watts
+        var watts = Math.pow(10, (inputPower / 10)) / 1000; // Divide by 1000 to convert from mW to Watts
+
+        // Calculate RMS Voltage
+        var rmsVoltage = Math.sqrt(watts * referenceResistance);
+
+        // Display results
+        document.getElementById('resultWatts').innerHTML = 'Watts: ' + watts.toFixed(6);
+        document.getElementById('resultDBm').innerHTML = 'dBm: ' + inputPower;
+        document.getElementById('resultRMSVoltage').innerHTML = 'RMS Voltage: ' + rmsVoltage.toFixed(6) + ' Volts';
+      } else if (conversionType === 'wattsToDBm') {
+        // Convert Watts to dBm
+        var dBm = 10 * Math.log10(inputPower * 1000); // Multiply by 1000 to convert from Watts to mW
+
+        // Calculate RMS Voltage
+        var rmsVoltage = Math.sqrt(inputPower * referenceResistance);
+
+        // Display results
+        document.getElementById('resultWatts').innerHTML = 'Watts: ' + inputPower.toFixed(6);
+        document.getElementById('resultDBm').innerHTML = 'dBm: ' + dBm.toFixed(2);
+        document.getElementById('resultRMSVoltage').innerHTML = 'RMS Voltage: ' + rmsVoltage.toFixed(6) + ' Volts';
+      }
+    }
+    </script>
+</body>
+</html>
