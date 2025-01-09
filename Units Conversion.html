@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unit Conversion Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f8;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #003366;
+            color: white;
+            padding: 1rem 2rem;
+            text-align: center;
+        }
+        header h1 {
+            margin: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 1rem;
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .container h2 {
+            color: #00509e;
+            margin-bottom: 1rem;
+        }
+        .return-button {
+            display: inline-block;
+            margin-bottom: 1.5rem;
+            padding: 0.5rem 1rem;
+            font-size: 1rem;
+            color: white;
+            background-color: #00509e;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+        .return-button:hover {
+            background-color: #003366;
+        }
+        footer {
+            background-color: #003366;
+            color: white;
+            text-align: center;
+            padding: 1rem 0;
+            margin-top: 2rem;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        select, input {
+            width: 37.5%;
+            padding: 8px;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        #result {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Unit Conversion Calculator</h1>
+    </header>
+    <div class="container">
+        <a href="index.html" class="return-button">Back to Main Page</a>
+        <h2>Convert Units</h2>
+        <label for="conversionType">Select Conversion Type:</label>
+        <select id="conversionType">
+            <option value="milToMm">Mil to mm</option>
+            <option value="mmToMil">Mm to mil</option>
+            <option value="ounceToMm">Ounce of copper to mm</option>
+        </select>
+        <label for="inputValue">Enter Value:</label>
+        <input type="number" id="inputValue" placeholder="Enter value">
+        <button onclick="convert()">Convert</button>
+        <p id="result"></p>
+    </div>
+    <footer>
+        <p>&copy; 2025 RF-in-Spec. All rights reserved.</p>
+    </footer>
+
+    <script>
+        function convert() {
+            const conversionType = document.getElementById('conversionType').value;
+            const inputValue = parseFloat(document.getElementById('inputValue').value);
+            let result;
+
+            if (isNaN(inputValue)) {
+                result = "Please enter a valid number.";
+            } else {
+                switch (conversionType) {
+                    case 'milToMm':
+                        result = (inputValue * 0.0254).toFixed(4) + " mm";
+                        break;
+                    case 'mmToMil':
+                        result = (inputValue / 0.0254).toFixed(4) + " mils";
+                        break;
+                    case 'ounceToMm':
+                        result = (inputValue * 0.0348).toFixed(4) + " mm";
+                        break;
+                    default:
+                        result = "Invalid conversion type.";
+                }
+            }
+
+            document.getElementById('result').innerText = result;
+        }
+    </script>
+</body>
+</html>
