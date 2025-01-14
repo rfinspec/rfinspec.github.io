@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Resources</title>
+    <title>Resources - RF-in-Spec</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -52,6 +52,30 @@
             border-radius: 8px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
+        h2 {
+            color: #00509e;
+        }
+        .resource-category {
+            margin-bottom: 2rem;
+        }
+        .resource-category h3 {
+            border-bottom: 2px solid #ddd;
+            padding-bottom: 0.5rem;
+        }
+        .resource-category ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .resource-category ul li {
+            margin: 0.5rem 0;
+        }
+        .resource-category ul li a {
+            color: #00509e;
+            text-decoration: none;
+        }
+        .resource-category ul li a:hover {
+            text-decoration: underline;
+        }
         footer {
             background-color: #003366;
             color: white;
@@ -64,7 +88,7 @@
 <body>
 
 <header>
-    <h1>Resources</h1>
+    <h1>RF-in-Spec</h1>
 </header>
 
 <nav>
@@ -78,18 +102,52 @@
 </nav>
 
 <div class="container">
-    <h2>Useful Resources for RF Design</h2>
-    <p>Here are some valuable resources for RF design that can help you with further learning and tools:</p>
-    <ul>
-        <li><a href="https://www.analog.com/en/technical-articles/rf-design-resources.html" target="_blank">Analog Devices RF Design Resources</a></li>
-        <li><a href="https://www.ti.com/rf-wireless/overview.html" target="_blank">Texas Instruments RF and Wireless Resources</a></li>
-        <li><a href="https://www.qsl.net/wa2ise/rfdesign.html" target="_blank">WA2ISE RF Design Guide</a></li>
-        <!-- Add more useful links here -->
-    </ul>
+    <h2>Resources</h2>
+    <p>Explore a curated list of resources to enhance your understanding and efficiency in RF design. Below are some helpful books, software, YouTube channels, rules of thumb, and downloadable PDFs.</p>
+
+    <div class="resource-category">
+        <h3>📚 Books</h3>
+        <ul>
+            <li><a href="https://www.amazon.com/ExampleBook1" target="_blank">Microwave Engineering by David Pozar</a></li>
+            <li><a href="https://www.amazon.com/ExampleBook2" target="_blank">RF Circuit Design by Chris Bowick</a></li>
+        </ul>
+    </div>
+
+    <div class="resource-category">
+        <h3>💻 Useful Software</h3>
+        <ul>
+            <li><a href="https://www.qucs.sourceforge.io/" target="_blank">Qucs - RF Simulation Software</a></li>
+            <li><a href="https://www.keysight.com/en/pc-1297113/ads-advanced-design-system" target="_blank">Keysight ADS</a></li>
+        </ul>
+    </div>
+
+    <div class="resource-category">
+        <h3>📺 YouTube Channels</h3>
+        <ul>
+            <li><a href="https://www.youtube.com/user/ElectroBOOM" target="_blank">ElectroBOOM</a></li>
+            <li><a href="https://www.youtube.com/user/w2aew" target="_blank">w2aew - RF Tutorials</a></li>
+        </ul>
+    </div>
+
+    <div class="resource-category">
+        <h3>📏 Rules of Thumb</h3>
+        <ul>
+            <li>For a quick impedance match, start with 50Ω for most RF systems.</li>
+            <li>When designing microstrip lines, the width should be about 2-3x the height of the substrate.</li>
+        </ul>
+    </div>
+
+    <div class="resource-category">
+        <h3>📄 Useful PDFs</h3>
+        <ul>
+            <li><a href="docs/RF_Design_Basics.pdf" download>RF Design Basics</a></li>
+            <li><a href="docs/Antenna_Design_Guide.pdf" download>Antenna Design Guide</a></li>
+        </ul>
+    </div>
 </div>
 
 <footer>
-    <p>&copy; 2025 RF Calculators. All rights reserved.</p>
+    <p>&copy; 2025 RF-in-Spec. All rights reserved.</p>
 </footer>
 
 </body>
