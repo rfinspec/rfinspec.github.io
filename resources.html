@@ -146,8 +146,16 @@
     <div class="resource-category">
         <h3>📏 Rules of Thumb</h3>
         <ul>
-            <li>For a quick impedance match, start with 50Ω for most RF systems.</li>
-            <li>When designing microstrip lines, the width should be about 2-3x the height of the substrate.</li>
+            <li>1-Reactance of DC block capacitor should not be more than 3 Ω  to 5 Ω at the lowest operating frequency</li>
+            <li>2-At high frequency application the orientation of capacitors affects RF performance. Vertical orientation removes odd parallel resonant frequencies</li>
+			<li>3-Open wire has approximately 1nH per foot whereas PCB traces have 10nH per inch inductance</li>
+            <li>4-When using resistor in RF feedback application, the value of the resistor should be greater than Crss (Reverse transfer capacitance)</li>
+			<li>5-Feedback 	resistor rating is P (rms) = {Vd (DC voltage across) / R 	(resistance)} /√2</li>
+            <li>6-Feedback is used to level the gain, broader band width and to achieve stability</li>
+			<li>7-For stability series / parallel resistance can be used on input (PA) or 	output side (LNA)</li>
+            <li>8-Class AB LDMOS transistors need soaking at twice the quiescent current for 8-12 hours before testing fully</li>
+			<li>9-The drain voltage can reach twice the supply voltage at positive part of the input rf signal</li>
+            <li>10-50 ohm Microstripline to ground plane distance should be at least 1.5 x substrate height</li>
         </ul>
     </div>
 
