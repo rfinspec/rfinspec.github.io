@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SPBRG Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f8;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #003366;
+            color: white;
+            padding: 1rem 2rem;
+            text-align: center;
+        }
+        header h1 {
+            margin: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 1rem;
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .container h2 {
+            color: #00509e;
+            margin-bottom: 1rem;
+        }
+        .return-button {
+            display: inline-block;
+            margin-bottom: 1.5rem;
+            padding: 0.5rem 1rem;
+            font-size: 1rem;
+            color: white;
+            background-color: #00509e;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+        .return-button:hover {
+            background-color: #003366;
+        }
+        footer {
+            background-color: #003366;
+            color: white;
+            text-align: center;
+            padding: 1rem 0;
+            margin-top: 2rem;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        input, button {
+            padding: 8px;
+            margin: 5px 0;
+            box-sizing: border-box;
+        }
+        input[type="text"] {
+            width: 100%;
+            max-width: 200px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        #result {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+        .formula {
+            margin-top: 20px;
+            font-style: italic;
+            color: #00509e;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>SPBRG Calculator</h1>
+    </header>
+    <div class="container">
+        <a href="index.html" class="return-button">Back to Main Page</a>
+        <h2>Calculate SPBRG Value</h2>
+        <p>Calculate the SPBRG value for a given clock rate and baud rate.</p>
+
+        <!-- Input Fields -->
+        <label for="clockRate">Enter Clock Rate [MHz]:</label>
+        <input type="text" id="clockRate" value="4">
+
+        <label for="baudRate">Enter Baud Rate:</label>
+        <input type="text" id="baudRate" value="2400">
+
+        <!-- Button -->
+        <button onclick="calculateSPBRG()">Calculate SPBRG</button>
+
+        <!-- Results -->
+        <div id="result">
+            <!-- The result will appear here after calculation -->
+        </div>
+
+        <!-- Formula -->
+        <div class="formula">
+            SPBRG = (F<sub>osc</sub> / (64 &times; Baud Rate)) - 1
+        </div>
+    </div>
+    <footer>
+        <p>&copy; 2025 RF-in-Spec. All rights reserved.</p>
+    </footer>
+
+    <script>
+        function calculateSPBRG() {
+            const clockRateMHz = parseFloat(document.getElementById('clockRate').value);
+            const baudRate = parseFloat(document.getElementById('baudRate').value);
+            const clockRateHz = clockRateMHz * 1e6; // Convert MHz to Hz
+            const spbrg = Math.round((clockRateHz / (64 * baudRate)) - 1);
+            document.getElementById('result').innerText = `The SPBRG value is ${spbrg}.`;
+        }
+    </script>
+</body>
+</html>
